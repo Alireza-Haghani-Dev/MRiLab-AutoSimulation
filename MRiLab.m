@@ -3,7 +3,7 @@
 function MRiLab
 
     warning off; % disable warning
-    
+    % my name is Majid
     [pathstr,name,ext]=fileparts(mfilename('fullpath'));
     addpath(genpath(pathstr));
     % Remove unnessary search path
