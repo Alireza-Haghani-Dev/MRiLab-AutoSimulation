@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MRiLabGrad Name="Grad_EFmri2" Notes="Customized Gradient Field for Head">
+   <GradLinear GradLine="$2'GxR','GyPE','GzSS'" GradX="0" GradY="0.5" GradZ="0"/>
+</MRiLabGrad>

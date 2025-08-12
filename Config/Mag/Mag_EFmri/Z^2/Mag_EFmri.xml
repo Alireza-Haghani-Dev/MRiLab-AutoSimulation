@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MRiLabMag Name="Mag_EFmri" Notes="Customized dB0 Field Head Magnet">
+   <MagSymbolic Equation="'100*(X.^2)'"/>
+</MRiLabMag>

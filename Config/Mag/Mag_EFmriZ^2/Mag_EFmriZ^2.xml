@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MRiLabMag Name="Mag_EFmriZ^2" Notes="Customized dB0 Field Head Magnet">
+   <MagSymbolic Equation="'Z.^2'"/>
+</MRiLabMag>

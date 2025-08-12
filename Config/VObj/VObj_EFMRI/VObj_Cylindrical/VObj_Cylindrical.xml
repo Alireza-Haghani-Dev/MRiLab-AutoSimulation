@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MRiLabVObj Gyro="267538030.3797" Model="$1'Normal','MT','ME','GM'" Name="VObj_Cylindrical"
+            Notes="VObj_Cylindrical samples"
+            Type="Water"
+            TypeNum="1"
+            XDim="90"
+            XDimRes="0.002"
+            YDim="90"
+            YDimRes="0.002"
+            ZDim="90"
+            ZDimRes="0.002">
+   <VObjCylinder Alpha="1" Color="r" Notes="Cylinder Object">
+      <Geometry CenterX="0.007" CenterY="0.007" CenterZ="0" FaceNum="20" Length="0.04"
+                Radius="0.005"/>
+      <Property ChemShift="0" ECon="0.5 0.5 0.5" K="10" LineShapeFlag="0" MassDen="1000"
+                Rho="1"
+                T1="2.3"
+                T2="1.75"
+                T2Star="0.1"
+                TypeFlag="0"
+                TypeIdx="1"/>
+   </VObjCylinder>
+   <VObjCylinder Alpha="1" Color="r" Notes="Cylinder Object">
+      <Geometry CenterX="-0.007" CenterY="0.007" CenterZ="0" FaceNum="20" Length="0.04"
+                Radius="0.005"/>
+      <Property ChemShift="0" ECon="0.5 0.5 0.5" K="10" LineShapeFlag="0" MassDen="1000"
+                Rho="1"
+                T1="2.3"
+                T2="1.75"
+                T2Star="0.1"
+                TypeFlag="0"
+                TypeIdx="1"/>
+   </VObjCylinder>
+   <VObjCylinder Alpha="1" Color="r" Notes="Cylinder Object">
+      <Geometry CenterX="-0.007" CenterY="-0.007" CenterZ="0" FaceNum="20" Length="0.04"
+                Radius="0.005"/>
+      <Property ChemShift="0" ECon="0.5 0.5 0.5" K="10" LineShapeFlag="0" MassDen="1000"
+                Rho="1"
+                T1="2.3"
+                T2="1.75"
+                T2Star="0.1"
+                TypeFlag="0"
+                TypeIdx="1"/>
+   </VObjCylinder>
+   <VObjCylinder Alpha="1" Color="r" Notes="Cylinder Object">
+      <Geometry CenterX="0.007" CenterY="-0.007" CenterZ="0" FaceNum="20" Length="0.04"
+                Radius="0.005"/>
+      <Property ChemShift="0" ECon="0.5 0.5 0.5" K="10" LineShapeFlag="0" MassDen="1000"
+                Rho="1"
+                T1="2.3"
+                T2="1.75"
+                T2Star="0.1"
+                TypeFlag="0"
+                TypeIdx="1"/>
+   </VObjCylinder>
+</MRiLabVObj>

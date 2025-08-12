@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MRiLabCoil Name="Coil_EFMRI" Notes="Helical Coil_EFMRI">
+   <CoilUser B1File="'D:\MRiLab2\E1.MAT'" CoilID="1" E1File="'D:\MRiLab2\B1.MAT'"
+             Interp="$1'linear','nearest','cubic'"
+             PosX="0"
+             PosY="0"
+             PosZ="0"/>
+</MRiLabCoil>
