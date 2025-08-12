@@ -1,0 +1,20 @@
+
+%%%%%%%%%%%%%%%%%%%% MRiLab setup%%%%%%%%%%%%%%%%%%%%%%
+function MRiLab
+
+    warning off; % disable warning
+    
+    [pathstr,name,ext]=fileparts(mfilename('fullpath'));
+    addpath(genpath(pathstr));
+    % Remove unnessary search path
+    rmpath(genpath([pathstr filesep '.git']));
+    rmpath(genpath([pathstr filesep 'Doc']));
+global weights;
+for i=1:n_DataSet
+n=4;
+weights=rand(n,1);% random number of current normalized to 1
+     
+        SimuPanel(pathstr); % Call the function with 'pathstr'
+   
+    clear pathstr name ext
+end
