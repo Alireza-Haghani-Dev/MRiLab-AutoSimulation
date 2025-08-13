@@ -37,7 +37,7 @@ gui_State = struct('gui_Name',       mfilename, ...
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
-
+%disp(gui_State.gui_Callback);
 if nargout
     [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
 else
@@ -72,6 +72,7 @@ handles.output = hObject;
 % Update handles structure
 guidata(hObject, handles);
 
+
 % UIWAIT makes MagList_figure wait for user response (see UIRESUME)
 % uiwait(handles.MagList_figure);
 
@@ -84,7 +85,11 @@ function varargout = MagList_OutputFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
+% global mag_O_H;
+% varargout{1} =mag_O_H;
 varargout{1} = handles.output;
+MagPath_pushbutton_Callback(hObject, eventdata, handles);
+
 
 % --- Executes on selection change in Mag_listbox.
 function Mag_listbox_Callback(hObject, eventdata, handles)
@@ -261,40 +266,150 @@ delete(handles.MagList_figure);
 
 
 % --- Executes on button press in MagPath_pushbutton.
+%  function MagPath_pushbutton_Callback(hObject, eventdata, handles)
+% % hObject    handle to MagPath_pushbutton (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    structure with handles and user data (see GUIDATA)
+% 
+% global VMag;
+% global VMmg;
+% 
+% [filename,pathname,filterindex]=uigetfile({'Mag*.xml','XML-files (*.xml)'},'MultiSelect','off');
+% if filename~=0
+%     handles.MagXMLFile=[pathname filename];
+%     handles.MagXMLDir=pathname(1:end-1);
+%     set(handles.MagPath_text,'String',[pathname filename]);
+%     % Add searchig path
+%     path(path,handles.MagXMLDir);
+% 
+%     % update grid
+%     VMmg.xgrid=VMag.Gxgrid;
+%     VMmg.ygrid=VMag.Gygrid;
+%     VMmg.zgrid=VMag.Gzgrid;
+% 
+%     [pathstr,name,ext]=fileparts(handles.MagXMLFile);
+%     eval(['dB0=' name ';']);
+%     V=handles.Simuh.AV;
+%     V.Color_map='jet';
+%     V.C_upper=max(max(dB0(:,:,V.Slice)));
+%     V.C_lower=min(min(dB0(:,:,V.Slice)));
+%     DoUpdateImage(handles.Preview_axes,dB0,V);
+% 
+% else
+%     errordlg('No Mag was loaded!');
+%     return;
+% end
+% guidata(hObject, handles);
+%-------------------------------------------------------------
+% function MagPath_pushbutton_Callback(hObject, eventdata, handles)
+%     % hObject    handle to MagPath_pushbutton (see GCBO)
+%     % eventdata  reserved - to be defined in a future version of MATLAB
+%     % handles    structure with handles and user data (see GUIDATA)
+% 
+%     global VMag;
+%     global VMmg;
+% 
+%     % Specify the file and path
+%     filename = 'Mag_EFmri.xml';
+%     pathname = 'D:\MRiLab\Config\Mag\Mag_EFmri\Z^2';
+% 
+%     if exist(fullfile(pathname, filename), 'file')
+%         handles.MagXMLFile = fullfile(pathname, filename);
+%         handles.MagXMLDir = pathname(1:end-1);
+%         set(handles.MagPath_text, 'String', fullfile(pathname, filename));
+% 
+%         % Add searching path
+%         path(path, handles.MagXMLDir);
+% 
+%         % Update grid
+%         VMmg.xgrid = VMag.Gxgrid;
+%         VMmg.ygrid = VMag.Gygrid;
+%         VMmg.zgrid = VMag.Gzgrid;
+% 
+%         [pathstr, name, ext] = fileparts(handles.MagXMLFile);
+%         eval(['dB0 = ' name ';']);
+%         V = handles.Simuh.AV;
+%         V.Color_map = 'jet';
+%         V.C_upper = max(max(dB0(:,:,V.Slice)));
+%         V.C_lower = min(min(dB0(:,:,V.Slice)));
+%         DoUpdateImage(handles.Preview_axes, dB0, V);
+% 
+%     else
+%         errordlg('Mag_EFmri.xml file not found in the specified directory!');
+%         return;
+%     end
+%     guidata(hObject, handles);
+%     global mag_O_H;
+%     mag_O_H=handles.output;
+%-----------------------------------------------------------------------
 function MagPath_pushbutton_Callback(hObject, eventdata, handles)
-% hObject    handle to MagPath_pushbutton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+    % hObject    handle to MagPath_pushbutton (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
 
-global VMag;
-global VMmg;
+    global VMag;
+    global VMmg;
 
-[filename,pathname,filterindex]=uigetfile({'Mag*.xml','XML-files (*.xml)'},'MultiSelect','off');
-if filename~=0
-    handles.MagXMLFile=[pathname filename];
-    handles.MagXMLDir=pathname(1:end-1);
-    set(handles.MagPath_text,'String',[pathname filename]);
-    % Add searchig path
-    path(path,handles.MagXMLDir);
+    % Specify the file and path
+    filename = 'Mag_EFmri4.xml';
+    pathname = 'C:\Projects\MRiLab\Config\Mag\Mag_EFmri4';
+    xmlFilePath = fullfile(pathname, filename);
+
+    % Check if file exists
+    if exist(xmlFilePath, 'file')
+      
+% 
+%         global new_a; % Set the desired value of 'a' here
+%          new_a =1;
+%         xmlDoc = xmlread(xmlFilePath);
+% %disp(xmlFilePath);
+%         % Locate the MagSymbolic Equation node and update it
+%         magSymbolicNode = xmlDoc.getElementsByTagName('MagSymbolic').item(0);
+% 
+%         oldEquation = char(magSymbolicNode.getAttribute('Equation'));
+%         newEquation = sprintf('''%d*(X.^2)''', new_a);
+% 
+%         magSymbolicNode.setAttribute('Equation', newEquation);
+%         %disp(xmlDoc.getElementsByTagName('MagSymbolic').item(0));
+%         % Save the modified XML file
+%         xmlwrite(xmlFilePath, xmlDoc);
+
+        % Load the updated file
+        handles.MagXMLFile = xmlFilePath;
+        handles.MagXMLDir = pathname(1:end-1);
+        set(handles.MagPath_text, 'String', xmlFilePath);
+
+        % Add searching path
+        path(path, handles.MagXMLDir);
+
+        % Update grid
+        VMmg.xgrid = VMag.Gxgrid;
+        VMmg.ygrid = VMag.Gygrid;
+        VMmg.zgrid = VMag.Gzgrid;
+
+        [pathstr, name, ext] = fileparts(handles.MagXMLFile);
+
+        eval(['dB0 = ' name ';']);
+        V = handles.Simuh.AV;
+        V.Color_map = 'jet';
+        V.C_upper = max(max(dB0(:,:,V.Slice)));
+        V.C_lower = min(min(dB0(:,:,V.Slice)));
+        DoUpdateImage(handles.Preview_axes, dB0, V);
+
+    else
+        % If file does not exist, show error dialog
+        errordlg('Mag_EFmri.xml file not found in the specified directory!');
+        return;
+    end
+
+    % Update handles structure
+    guidata(hObject, handles);
+
+    global mag_O_H;
+    mag_O_H = handles.output;
     
-    % update grid
-    VMmg.xgrid=VMag.Gxgrid;
-    VMmg.ygrid=VMag.Gygrid;
-    VMmg.zgrid=VMag.Gzgrid;
-    
-    [pathstr,name,ext]=fileparts(handles.MagXMLFile);
-    eval(['dB0=' name ';']);
-    V=handles.Simuh.AV;
-    V.Color_map='jet';
-    V.C_upper=max(max(dB0(:,:,V.Slice)));
-    V.C_lower=min(min(dB0(:,:,V.Slice)));
-    DoUpdateImage(handles.Preview_axes,dB0,V);
-    
-else
-    errordlg('No Mag was loaded!');
-    return;
-end
-guidata(hObject, handles);
+  pause(0.03);
+   Accept_pushbutton_Callback(hObject, eventdata, handles);
 
 
 % --- Executes on button press in Default_pushbutton.

@@ -104,7 +104,7 @@ guidata(hObject, handles);
 % UIWAIT makes SeqList_figure wait for user response (see UIRESUME)
 % uiwait(handles.SeqList_figure);
 %Category_listbox_Callback(hObject, eventdata, handles);
-
+PSDPath_pushbutton_Callback(hObject, eventdata, handles);
 
 
 
@@ -116,12 +116,10 @@ function varargout = SeqList_OutputFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
-% global H_O;
-% 
-% varargout{1} = H_O;
-varargout{1} = handles.output;
-PSDPath_pushbutton_Callback(hObject, eventdata, handles);
+global H_O;
 
+varargout{1} = H_O;
+disp('yes');
 
 % --- Executes on selection change in Dim_popupmenu.
 function Dim_popupmenu_Callback(hObject, eventdata, handles)
@@ -262,7 +260,7 @@ try
 
     % Hardcoded file path for PSD_GRE3D.xml
     filename = 'PSD_GRE3D.xml';
-    pathname = '.\PSD\3D\GradientEcho\PSD_GRE3D\';
+    pathname = 'D:\MRiLab\PSD\3D\GradientEcho\PSD_GRE3D\';
     
     % Construct the full paths for the sequence XML file and its directory
     handles.SeqXMLFile = fullfile(pathname, filename); % Full path to XML file
@@ -407,7 +405,7 @@ function Accept_pushbutton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global VCtl;
-
+fprintf('PSD path is %s\n',get(handles.PSDPath_text,'String'));
 if isempty(get(handles.PSDPath_text,'String'))
     try
         if strcmp(handles.SeqList{get(handles.Seq_listbox,'Value')},'Empty')
@@ -419,7 +417,7 @@ if isempty(get(handles.PSDPath_text,'String'))
         return;
     end
 end
-
+fprintf('handles.seqXMLDir %s\n',handles.SeqXMLDir);
 try
     handles.Simuh.SimuAttrStruct=DoParseXML([handles.SeqXMLDir filesep 'SimuAttr.xml']);
 catch ME
@@ -511,7 +509,7 @@ close(handles.SeqList_figure);
 global H_O;
 H_O=handles.output;
 
-
+%SeqList_figure_CloseRequestFcn(hObject, eventdata, handles);
 
 % --- Executes on button press in Cancel_pushbutton.
 function Cancel_pushbutton_Callback(hObject, eventdata, handles)
@@ -605,10 +603,9 @@ function PSDPath_pushbutton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 try
-   
     % Hardcoded file path for PSD_GRE3D.xml
-    filename = 'PSD_EFMRI.xml';
-    pathname = '.\PSD\2D\EFMRI\PSD_EFMRI\';
+    filename = 'PSD_GRE3D.xml';
+    pathname = 'D:\MRiLab\PSD\3D\GradientEcho\PSD_GRE3D\';
     
     % Full file path
     handles.SeqXMLFile = fullfile(pathname, filename);
@@ -668,7 +665,6 @@ try
     % Update GUI
     set(handles.PSDPath_text, 'String', handles.SeqXMLFile);
     disp('PSD_GRE3D.xml successfully loaded into the simulation environment.');
-    %disp(handles.SeqXMLFile);
 
 catch me
     % Print error details to the command line

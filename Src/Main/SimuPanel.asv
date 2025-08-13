@@ -1444,6 +1444,21 @@ try
     S = load([OutputDir filesep 'Series' num2str(eventdata.Indices(1)) '.mat']);
     Img = sum(S.VImg.Mag, 4); % show SumofMagn
     handles.Img = Img(:,:,:,1); % show first echo
+    % Define the data to append
+
+% Open the file in append mode
+fileID = fopen('Weights.txt', 'a');
+
+% Check if the file opened successfully
+if fileID == -1
+    error('Failed to open the file.');
+end
+
+% Write the data to the file
+fprintf(fileID, '%d %d %d\n', newData);
+
+% Close the file
+fclose(fileID);
 
 catch me
     error_msg{1,1}=['Loading image Series' num2str(eventdata.Indices(1)) ' failed.'];
@@ -1489,7 +1504,8 @@ else
     text(0,3,['Slice : ' num2str(handles.IV.Slice)],'Color','g');
 end
 guidata(hObject, handles);
-   
+
+
 % --- Executes on selection change in Echo_popupmenu.
 function Echo_popupmenu_Callback(hObject, eventdata, handles)
 % hObject    handle to Echo_popupmenu (see GCBO)

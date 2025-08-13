@@ -260,13 +260,13 @@ if exist(fullFilePath, 'file') % Ensure the file exists
         %     newEquation = sprintf('''%d*(Z.^%d)''', new_a,x_order);
         % end
         
-        shims = ["X", "Y", "Z","Z.*X"];%,"Z*Y","(X^2-Y^2)","X*Y","(Z^2)*X", "(Z^2)*Y", "Z*(X^2–Y^2)", "Z*X*Y", "X^3", "Y^3"];
-        % weights=[Wx,Wy,Wz,Wzx,Wzy,Wx2y2,Wxy,Wz2x,Wz2y,Wzx2y2,Wzxy,Wx3,Wy3];% example weights
+        shims = ["X", "Y", "Z","Z*X"];%,"Z*Y","(X^2-Y^2)","X*Y","(Z^2)*X", "(Z^2)*Y", "Z*(X^2–Y^2)", "Z*X*Y", "X^3", "Y^3"];
+        % weights=[Wx,Wy,Wz,Wzx];,Wzy,Wx2y2,Wxy,Wz2x,Wz2y,Wzx2y2,Wzxy,Wx3,Wy3];% example weights
         N = numel(shims);
         eqs = strings(N,1);
 
         for i = 1:N
-          eqs(i) =sprintf("%s * %.6f", shims(i), weights(i));
+          eqs(i) =sprintf("%s * %.4f", shims(i), weights(i));
           
         end
         newEquation = strjoin(eqs, " + ");

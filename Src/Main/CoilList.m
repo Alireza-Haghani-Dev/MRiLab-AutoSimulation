@@ -37,7 +37,7 @@ gui_State = struct('gui_Name',       mfilename, ...
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
-
+disp(gui_State.gui_Callback);
 if nargout
     [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
 else
@@ -71,7 +71,8 @@ handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
-
+CoilPath_pushbutton_Callback(hObject, eventdata, handles);
+%pause(15);
 % UIWAIT makes CoilList_figure wait for user response (see UIRESUME)
 % uiwait(handles.CoilList_figure);
 
@@ -84,7 +85,11 @@ function varargout = CoilList_OutputFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
+  pause(0.01);
+    CoilList_figure_CloseRequestFcn(hObject, eventdata, handles);
 varargout{1} = handles.output;
+
+
 
 % --- Executes on selection change in Coil_listbox.
 function Coil_listbox_Callback(hObject, eventdata, handles)
@@ -301,49 +306,92 @@ end
 
 
 % --- Executes on button press in CoilPath_pushbutton.
+% function CoilPath_pushbutton_Callback(hObject, eventdata, handles)
+% % hObject    handle to CoilPath_pushbutton (see GCBO)
+% % eventdata  reserved - to be defined in a future version of MATLAB
+% % handles    structure with handles and user data (see GUIDATA)
+% global VCtl;
+% global VObj;
+% global VMco;
+% 
+% [filename,pathname,filterindex]=uigetfile({'Coil*.xml','XML-files (*.xml)'},'MultiSelect','off');
+% if filename~=0
+%     handles.CoilXMLFile=[pathname filename];
+%     handles.CoilXMLDir=pathname(1:end-1);
+%     set(handles.CoilPath_text,'String',[pathname filename]);
+%     % Add searchig path
+%     path(path,handles.CoilXMLDir);
+% 
+%     % update grid
+%     Precisions=get(handles.Precision_popupmenu,'String');
+%     Precision=str2num(Precisions{get(handles.Precision_popupmenu,'Value')});
+%     [Gxgrid,Gygrid,Gzgrid]=meshgrid((-VCtl.ISO(1)+1)*VObj.XDimRes:VObj.XDimRes*(1/Precision):(VObj.XDim-VCtl.ISO(1))*VObj.XDimRes,...
+%                                     (-VCtl.ISO(2)+1)*VObj.YDimRes:VObj.YDimRes*(1/Precision):(VObj.YDim-VCtl.ISO(2))*VObj.YDimRes,...
+%                                     (-VCtl.ISO(3)+1)*VObj.ZDimRes:VObj.ZDimRes:(VObj.ZDim-VCtl.ISO(3))*VObj.ZDimRes);
+%     VMco.xgrid=Gxgrid;
+%     VMco.ygrid=Gygrid;
+%     VMco.zgrid=Gzgrid;
+% 
+%     [pathstr,name,ext]=fileparts(handles.CoilXMLFile);
+%     eval(['[B1x, B1y, B1z, Pos]=' name ';']);
+%     handles.B1x=sum(B1x,4);
+%     handles.B1y=sum(B1y,4);
+%     handles.B1=sqrt(handles.B1x.^2+handles.B1y.^2);
+%     Colormaps=get(handles.Colormap_popupmenu,'String');
+%     V=handles.Simuh.AV;
+%     V.Color_map=Colormaps{get(handles.Colormap_popupmenu,'Value')};
+%     V.C_upper=max(max(handles.B1(:,:,V.Slice)));
+%     V.C_lower=min(min(handles.B1(:,:,V.Slice)));
+%     DoUpdateImage(handles.Preview_axes,handles.B1,V);
+% else
+%     errordlg('No Coil was loaded!');
+%     return;
+% end
+% guidata(hObject, handles);
+% ------------------------------------------------------------------------
 function CoilPath_pushbutton_Callback(hObject, eventdata, handles)
-% hObject    handle to CoilPath_pushbutton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global VCtl;
-global VObj;
-global VMco;
+    % hObject    handle to CoilPath_pushbutton (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    global VCtl;
+    global VObj;
+    global VMco;
 
-[filename,pathname,filterindex]=uigetfile({'Coil*.xml','XML-files (*.xml)'},'MultiSelect','off');
-if filename~=0
-    handles.CoilXMLFile=[pathname filename];
-    handles.CoilXMLDir=pathname(1:end-1);
-    set(handles.CoilPath_text,'String',[pathname filename]);
-    % Add searchig path
-    path(path,handles.CoilXMLDir);
+    % Define the fixed Coil XML file path
+    filename = 'Coil_EFMRI.xml';
+    pathname = 'D:\MRiLab2\Config\Coil\EFMRI\';
     
-    % update grid
-    Precisions=get(handles.Precision_popupmenu,'String');
-    Precision=str2num(Precisions{get(handles.Precision_popupmenu,'Value')});
-    [Gxgrid,Gygrid,Gzgrid]=meshgrid((-VCtl.ISO(1)+1)*VObj.XDimRes:VObj.XDimRes*(1/Precision):(VObj.XDim-VCtl.ISO(1))*VObj.XDimRes,...
-                                    (-VCtl.ISO(2)+1)*VObj.YDimRes:VObj.YDimRes*(1/Precision):(VObj.YDim-VCtl.ISO(2))*VObj.YDimRes,...
-                                    (-VCtl.ISO(3)+1)*VObj.ZDimRes:VObj.ZDimRes:(VObj.ZDim-VCtl.ISO(3))*VObj.ZDimRes);
-    VMco.xgrid=Gxgrid;
-    VMco.ygrid=Gygrid;
-    VMco.zgrid=Gzgrid;
+    handles.CoilXMLFile = [pathname filename];
+    handles.CoilXMLDir = pathname(1:end-1);
+    set(handles.CoilPath_text, 'String', [pathname filename]);
     
-    [pathstr,name,ext]=fileparts(handles.CoilXMLFile);
+    % Add searching path
+    path(path, handles.CoilXMLDir);
+    
+    % Update grid
+    Precisions = get(handles.Precision_popupmenu, 'String');
+    Precision = str2num(Precisions{get(handles.Precision_popupmenu, 'Value')});
+    [Gxgrid, Gygrid, Gzgrid] = meshgrid((-VCtl.ISO(1)+1)*VObj.XDimRes:VObj.XDimRes*(1/Precision):(VObj.XDim-VCtl.ISO(1))*VObj.XDimRes, ...
+                                        (-VCtl.ISO(2)+1)*VObj.YDimRes:VObj.YDimRes*(1/Precision):(VObj.YDim-VCtl.ISO(2))*VObj.YDimRes, ...
+                                        (-VCtl.ISO(3)+1)*VObj.ZDimRes:VObj.ZDimRes:(VObj.ZDim-VCtl.ISO(3))*VObj.ZDimRes);
+    VMco.xgrid = Gxgrid;
+    VMco.ygrid = Gygrid;
+    VMco.zgrid = Gzgrid;
+    
+    [pathstr, name, ext] = fileparts(handles.CoilXMLFile);
     eval(['[B1x, B1y, B1z, Pos]=' name ';']);
-    handles.B1x=sum(B1x,4);
-    handles.B1y=sum(B1y,4);
-    handles.B1=sqrt(handles.B1x.^2+handles.B1y.^2);
-    Colormaps=get(handles.Colormap_popupmenu,'String');
-    V=handles.Simuh.AV;
-    V.Color_map=Colormaps{get(handles.Colormap_popupmenu,'Value')};
-    V.C_upper=max(max(handles.B1(:,:,V.Slice)));
-    V.C_lower=min(min(handles.B1(:,:,V.Slice)));
-    DoUpdateImage(handles.Preview_axes,handles.B1,V);
-else
-    errordlg('No Coil was loaded!');
-    return;
-end
-guidata(hObject, handles);
-
+    handles.B1x = sum(B1x, 4);
+    handles.B1y = sum(B1y, 4);
+    handles.B1 = sqrt(handles.B1x.^2 + handles.B1y.^2);
+    Colormaps = get(handles.Colormap_popupmenu, 'String');
+    V = handles.Simuh.AV;
+    V.Color_map = Colormaps{get(handles.Colormap_popupmenu, 'Value')};
+    V.C_upper = max(max(handles.B1(:,:,V.Slice)));
+    V.C_lower = min(min(handles.B1(:,:,V.Slice)));
+    DoUpdateImage(handles.Preview_axes, handles.B1, V);
+    
+    guidata(hObject, handles);
+  
 
 % --- Executes on selection change in Precision_popupmenu.
 function Precision_popupmenu_Callback(hObject, eventdata, handles)
