@@ -196,7 +196,7 @@ guidata(hObject, handles);
 
 % UIWAIT makes SimuPanel wait for user response (see UIRESUME)
 % uiwait(handles.SimuPanel_figure);
- %Save_pushbutton_Callback(hObject, eventdata, handles);
+ Save_pushbutton_Callback(hObject, eventdata, handles);
 
 function Uimenu_ChkFunction(Temp,Event,uimenu_handle)
 
